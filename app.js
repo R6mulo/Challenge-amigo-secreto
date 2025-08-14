@@ -20,6 +20,11 @@ function adicionarAmigo() {
         return;
     }
 
+    if (amigos.includes(nome)) {
+        alert('Esse nome já foi adicionado.');
+        return;
+    }
+
     // Adiciona o nome ao array
     amigos.push(nome);
 
@@ -44,13 +49,21 @@ function atualizarLista() {
     lista.innerHTML = '';
 
     // Adiciona cada nome como um <li>
-    amigos.forEach((nome) => {
+    amigos.forEach((nome, index) => {
         const li = document.createElement('li');
         li.textContent = nome;
+        li.style.cursor = 'pointer';
+        li.title = 'Clique para remover';
+        li.onclick = () => removerAmigo(index);
         lista.appendChild(li);
     });
 }
 
+    // Remove um amigo pelo índice
+    function removerAmigo(index) {
+        amigos.splice(index, 1);
+        atualizarLista();
+    }
 
      // Sorteia um amigo secreto da lista e exibe o resultado.
  
@@ -71,3 +84,10 @@ function sortearAmigo() {
     const resultado = document.getElementById('resultado');
     resultado.innerHTML = `<li>O amigo secreto é: <strong>${amigoSorteado}</strong></li>`;
 }
+
+    // Reiniciando o jogo, limpando lista e resultado
+    function reiniciarJogo() {
+        amigos.length = 0; // Esvazia o array
+        atualizarLista();
+        document.getElementById('resultado').innerHTML = '';
+    }
